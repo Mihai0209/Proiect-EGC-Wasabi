@@ -71,3 +71,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 SokobanEGC/Temp/FSTimeGet-36c8f799da8eeb946b8b2b154b8e2eee
 SokobanEGC/Temp/UnityLockfile
+SokobanEGC/Library/ArtifactDB
+SokobanEGC/Library/SourceAssetDB
+SokobanEGC/Logs/shadercompiler-UnityShaderCompiler.exe0.log
