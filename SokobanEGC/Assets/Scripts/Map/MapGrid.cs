@@ -33,7 +33,13 @@ namespace EGC.Map
 
         public struct GridPosition
         {
-            int x, y;
+            public GridPosition(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
+
+            public int X, Y;
         }
 
         private void Awake()

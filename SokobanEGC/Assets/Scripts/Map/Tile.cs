@@ -5,8 +5,9 @@ namespace EGC.Map
 {
     public class Tile : MonoBehaviour
     {
-        private int _id;
-        private GridPosition _position;
+        protected int _id;
+        protected GridPosition _position;
+        protected GameObject _prefab;
 
         public void ResetPosition()
         {

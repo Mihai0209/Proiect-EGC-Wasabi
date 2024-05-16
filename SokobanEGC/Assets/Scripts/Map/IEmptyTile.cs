@@ -1,6 +1,6 @@
 namespace EGC.Map
 {
-    public class NormalTile : Tile, IEmptyTile
+    public interface IEmptyTile
     {
         public bool HasDeskOn {  get; set; }
     }

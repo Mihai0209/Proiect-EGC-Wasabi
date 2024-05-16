@@ -1,9 +1,8 @@
-using UnityEngine;
-
 namespace EGC.Map
 {
-    public class FinishTile : Tile
+    public class FinishTile : Tile, IEmptyTile
     {
-        
+        public bool HasDeskOn {  get; set; }
+
     }
 }
