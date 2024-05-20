@@ -91,6 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a1a6e48c615d646bca30796e8906e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _normalTile: {fileID: 8705511327528755140, guid: 9ab5d1ccff397cb44b67d01009a2bc47, type: 3}
+  _wallTile: {fileID: 768837308761771116, guid: a3ab25143b308534380b5224f56383c2, type: 3}
+  _finishTile: {fileID: 1634342096269325066, guid: 5edc8dd0d36be2342a89794d19fc129d, type: 3}
+  _tileContainer: {fileID: 6897486376952819177}
 --- !u!1 &5394799491507310765
 GameObject:
   m_ObjectHideFlags: 0

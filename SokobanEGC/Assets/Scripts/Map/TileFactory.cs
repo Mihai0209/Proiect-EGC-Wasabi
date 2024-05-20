@@ -1,28 +1,50 @@
+﻿using Unity.VisualScripting;
 using UnityEngine;
+using static EGC.Map.MapGrid;
 using static EGC.Map.TilePrefabs;
 
 namespace EGC.Map
 {
     public class TileFactory : MonoBehaviour
     {
-        public Tile CreateTile(TileType type)
+        [SerializeField] private NormalTile _normalTile;
+        [SerializeField] private WallTile _wallTile;
+        [SerializeField] private FinishTile _finishTile;
+        [SerializeField] private GameObject _tileContainer;
+        public Tile CreateTile(TileType type,GridPosition position)
         {
             switch(type)
             {
                 case TileType.Normal:
-                    return new NormalTile();
+                    return  Instantiate(_normalTile,new Vector3(position.x,position.y),Quaternion.identity,_tileContainer.transform);
                 case TileType.Wall:
-                    return new WallTile();
+                    return Instantiate(_wallTile, new Vector3(position.x, position.y), Quaternion.identity, _tileContainer.transform);
                 case TileType.FinishPoint:
-                    return new FinishTile();
+                    return Instantiate(_finishTile, new Vector3(position.x, position.y), Quaternion.identity, _tileContainer.transform);
             }
 
             return null;
         }
-
-        private void CalculateTransformPosBasedOnGridPos()
+        public TileType GetTileType(Tile tile)
         {
-
+            if (tile is WallTile)
+            {
+                return TileType.Wall;
+            }
+            else if (tile is NormalTile)
+            {
+                return TileType.Normal;
+            }
+            else if (tile is FinishTile)
+            {
+                return TileType.FinishPoint;
+            }
+            else
+            {
+                return 0; 
+            }
         }
+
+      
     }
 }
