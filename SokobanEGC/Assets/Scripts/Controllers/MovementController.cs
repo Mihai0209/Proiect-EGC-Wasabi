@@ -24,13 +24,16 @@ namespace EGC.Controllers
             _gridData = new GridData();
         }
 
-        protected void TryMove(Vector2 direction)
+        protected void TryMove(Vector3 direction)
         {
             var positionToCheck = new GridPosition(_currentPosition.X + (int)direction.x, _currentPosition.Y + (int)direction.y);
 
-            if (CheckDestination(positionToCheck))
+             
+            if (CheckDestination(positionToCheck, direction, false))
             {
                 // Move
+
+                transform.position = transform.position + direction;
             }
             else
             {
@@ -38,15 +41,21 @@ namespace EGC.Controllers
             }
         }
 
-        protected bool CheckDestination(GridPosition position)
+        protected bool CheckDestination(GridPosition position, Vector3 direction, bool moovingDesk)
         {
             var destinationTile = _gridData.GetTile(position);
             if(TryCheckTileType(destinationTile, ref _normalTile) || TryCheckTileType(destinationTile, ref _finishTile))
             {
                 if(_normalTile != null)
                 {
-                    if (_normalTile.HasDeskOn)
+                    if(moovingDesk && _normalTile.HasDeskOn)
+                    { return false; }
+
+                    else if (_normalTile.HasDeskOn)
                     {
+                        GridPosition checkNewPosition = new GridPosition(position.X + (int)direction.x, position.Y + (int)direction.y);
+                        if (CheckDestination(checkNewPosition, direction, true))
+                        { return true; }
 
                     }
                     else

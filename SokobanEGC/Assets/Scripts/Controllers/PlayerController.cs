@@ -4,24 +4,45 @@ namespace EGC.Controllers
 {
     public class PlayerController : MovementController
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Sprite top;
+        [SerializeField] private Sprite bottom;
+        [SerializeField] private Sprite left;
+        [SerializeField] private Sprite right;
+  
+        private void Update()
+        {
+            HandleInput();
+        }
+
         private void HandleInput()
         {
-            if(Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W))
             {
-                TryMove(new Vector2(0, 1));
+                TryMove(new Vector3(0, 1, 0));
+                ChangeSprite(top);
             }
-            else if(Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S))
             {
-                TryMove(new Vector2(0, -1));
+                TryMove(new Vector3(0, -1, 0));
+                ChangeSprite(bottom);
             }
-            else if(Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D))
             {
-                TryMove(new Vector2(1, 0));
+                TryMove(new Vector3(1, 0, 0));
+                ChangeSprite(right);
             }
-            else if(Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.A))
             {
-                TryMove(new Vector2(-1, 0));
+                TryMove(new Vector3(-1, 0, 0));
+                ChangeSprite(left);
             }
+        }
+
+        private void ChangeSprite(Sprite sprite)
+        {
+            if (_spriteRenderer != null && sprite != null)
+                _spriteRenderer.sprite = sprite;
         }
 
     }
