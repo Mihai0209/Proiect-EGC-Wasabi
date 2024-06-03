@@ -1,5 +1,6 @@
 using EGC.StateMachine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace EGC.Map
@@ -7,6 +8,8 @@ namespace EGC.Map
     public class MapGrid : MonoBehaviour
     {
         [SerializeField] private TileLoader _tileLoader;
+        [SerializeField] private static GameObject _prefab;
+        [SerializeField] private GameObject _tilesObj;
 
         private static MapGrid _instance;
 
@@ -17,12 +20,6 @@ namespace EGC.Map
                 if (_instance == null)
                 {
                     _instance = FindObjectOfType<MapGrid>();
-
-                    if (_instance == null)
-                    {
-                        var mapGrid = new GameObject(typeof(MapGrid).Name);
-                        _instance = mapGrid.AddComponent<MapGrid>();
-                    }
                 }
 
                 return _instance;
@@ -63,14 +60,20 @@ namespace EGC.Map
             return new Tile(); //placeholder
         }
 
-        private void CreateMap()
+        public void CreateMap(string fileName)
         {
-            _tiles = _tileLoader.ReadDataFromFile();
+            _tiles = _tileLoader.ReadDataFromFile(fileName);
         }
 
-        private void DeleteMap()
+        public void DeleteMap()
         {
+            _tiles.Clear();
 
+            foreach (Transform child in _tilesObj.transform)
+            {
+                // Destroy each child object
+                Destroy(child.gameObject);
+            }
         }
     }
 }

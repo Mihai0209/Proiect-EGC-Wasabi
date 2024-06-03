@@ -10,7 +10,7 @@ namespace EGC.Menu
         [SerializeField] private Button _backToMainMenuButton;
         [SerializeField] private List<Button> _levelButtons;
 
-        public static event Action<string, int> LevelButtonPressed;
+        public static event Action<int> LevelButtonPressed;
         public static event Action<string> BackToMainMenuButtonPressed;
 
         private void Start()
@@ -19,7 +19,8 @@ namespace EGC.Menu
             
             for(int i = 0; i <  _levelButtons.Count; i++)
             {
-                _levelButtons[i].onClick.AddListener(() => LevelButtonPressed?.Invoke("In-Level Menu", i));
+                var index = i;
+                _levelButtons[i].onClick.AddListener(() => LevelButtonPressed?.Invoke(index));
             }
         }
 

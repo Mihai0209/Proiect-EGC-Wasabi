@@ -9,13 +9,13 @@ namespace EGC.Map
     {
         [SerializeField] private TileFactory _tileFactory;
 
-        public Dictionary<GridPosition, Tile> ReadDataFromFile()
+        public Dictionary<GridPosition, Tile> ReadDataFromFile(string fileName)
         {
             var tileDictionary = new Dictionary<GridPosition, Tile>();
-            TextAsset file = Resources.Load<TextAsset>("Level1");
+            TextAsset file = Resources.Load<TextAsset>(fileName);
             if (file == null)
             {
-                Debug.LogError("File not found: " + "Level1");
+                Debug.LogError("File not found: " + fileName);
                 return tileDictionary;
             }
 

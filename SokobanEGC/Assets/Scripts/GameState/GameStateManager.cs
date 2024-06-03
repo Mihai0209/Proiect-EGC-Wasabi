@@ -13,6 +13,8 @@ namespace EGC.StateMachine
 
         private static GameStateManager _instance;
 
+        public int LevelId { get; set; }
+
         public static GameStateManager Instance
         {
             get
@@ -67,7 +69,7 @@ namespace EGC.StateMachine
                     break;
 
                 case GameState.InLevel:
-                    CurrentState = new InLevelState();
+                    CurrentState = new InLevelState(LevelId);
                     break;
             }
 

@@ -1,3 +1,5 @@
+using EGC.Map;
+using EGC.Menu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +7,8 @@ namespace EGC.StateMachine
 {
     public class MenuState : State
     {
+        private MenuManager _menuManager;
+
         public override void Start()
         {
             Debug.Log("Menu State ON");
@@ -12,6 +16,9 @@ namespace EGC.StateMachine
                 return;
 
             MoveToMenuScene();
+            _menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
+            _menuManager.HideMenu("Main Menu");
+            _menuManager.ShowMenu("Level Screen Menu");
         }
 
         public override void Finish()
@@ -26,6 +33,7 @@ namespace EGC.StateMachine
 
         private void MoveToMenuScene()
         {
+            MapGrid.Instance.DeleteMap();
             SceneManager.LoadScene("MenuScene");
         }
     }

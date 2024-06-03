@@ -10,6 +10,27 @@ namespace EGC.Menu
         [SerializeField] private Menu _mainMenu;
         [SerializeField] private Menu _levelScreenMenu;
 
+        private static bool isPrefabInstantiated = false;
+
+        private void Awake()
+        {
+            if (!isPrefabInstantiated)
+            {
+                // Instantiate the prefab
+                GameObject instance = this.gameObject;
+                DontDestroyOnLoad(instance);
+
+                // Mark the prefab as instantiated
+                isPrefabInstantiated = true;
+            }
+            else
+            {
+                // Destroy this GameObject if the prefab is already instantiated
+                Destroy(this.gameObject);
+            }
+            //DontDestroyOnLoad(gameObject);
+        }
+
         private void Start()
         {
             _menus.Add("Main Menu", _mainMenu);
@@ -29,13 +50,13 @@ namespace EGC.Menu
             LevelScreenMenu.LevelButtonPressed -= OnLevelButtonPressed;
         }
 
-        private void ShowMenu(string menuName)
+        public void ShowMenu(string menuName)
         {
             CloseAllMenus();
             _menus[menuName].ShowMenu();
         }
 
-        private void HideMenu(string menuName)
+        public void HideMenu(string menuName)
         {
             _menus[menuName].HideMenu();
         }
@@ -48,8 +69,9 @@ namespace EGC.Menu
             }
         }
 
-        private void OnLevelButtonPressed(string menuName, int levelId)
+        private void OnLevelButtonPressed(int levelId)
         {
+            GameStateManager.Instance.LevelId = levelId;
             GameStateManager.Instance.SetState(GameStateManager.GameState.InLevel);
         }
 

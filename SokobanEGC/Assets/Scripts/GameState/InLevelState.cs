@@ -1,4 +1,6 @@
+using EGC.Map;
 using EGC.Menu;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +10,22 @@ namespace EGC.StateMachine
     {
         ///TODO: Add the map manager and read data from file based on the given level id
 
+        private Dictionary<int, string> levels = new Dictionary<int, string>()
+        {
+            {0, "Level1" },
+            {1, "Level2" },
+            {2, "Level3" },
+            {3, "Level4" },
+            {4, "Level5" },
+        };
+
+        private string _levelName;
+        private MenuManager _menuManager;
+
+        public InLevelState(int levelId)
+        {
+            _levelName = levels[levelId];
+        }
 
         public override void Start()
         {
@@ -15,7 +33,13 @@ namespace EGC.StateMachine
             if (GetCurrentSceneName() == "LevelScene")
                 return;
 
+            _menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
+            _menuManager.HideMenu("Main Menu");
+            _menuManager.HideMenu("Level Screen Menu");
+
+
             MoveToLevelScene();
+            MapGrid.Instance.CreateMap(_levelName);
 
             LevelInputEventManager.BackToMainMenuButtonPressed += MoveToMenuState;
         }
