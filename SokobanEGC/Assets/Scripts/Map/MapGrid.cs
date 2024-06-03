@@ -26,6 +26,8 @@ namespace EGC.Map
             }
         }
 
+        public TileLoader TileLoader { get => _tileLoader; }
+
         private Dictionary<GridPosition, Tile> _tiles = new Dictionary<GridPosition, Tile>();
 
         public struct GridPosition
@@ -62,7 +64,7 @@ namespace EGC.Map
 
         public void CreateMap(string fileName)
         {
-            _tiles = _tileLoader.ReadDataFromFile(fileName);
+            _tiles = TileLoader.ReadDataFromFile(fileName);
         }
 
         public void DeleteMap()

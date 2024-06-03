@@ -1,3 +1,4 @@
+using EGC.Map;
 using UnityEngine;
 
 namespace EGC.Controllers
@@ -9,7 +10,14 @@ namespace EGC.Controllers
         [SerializeField] private Sprite bottom;
         [SerializeField] private Sprite left;
         [SerializeField] private Sprite right;
-  
+
+        private void Start()
+        {
+            _gridData = new GridData();
+            transform.position = new Vector3(MapGrid.Instance.TileLoader.PlayerPosition.X, MapGrid.Instance.TileLoader.PlayerPosition.Y);
+            _currentPosition = MapGrid.Instance.TileLoader.PlayerPosition;
+        }
+
         private void Update()
         {
             HandleInput();
