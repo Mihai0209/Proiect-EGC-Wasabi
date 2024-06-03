@@ -32,8 +32,9 @@ namespace EGC.Controllers
             if (CheckDestination(positionToCheck, direction, false))
             {
                 // Move
-
                 transform.position = transform.position + direction;
+                _currentPosition.X += (int)direction.x;
+                _currentPosition.Y += (int)direction.y;
             }
             else
             {

@@ -57,7 +57,7 @@ namespace EGC.Map
 
         public Tile GetTile(GridPosition position)
         {
-            return new Tile(); //placeholder
+            return _tiles[position];
         }
 
         public void CreateMap(string fileName)

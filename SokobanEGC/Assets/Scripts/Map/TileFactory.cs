@@ -16,11 +16,17 @@ namespace EGC.Map
             switch(type)
             {
                 case TileType.Normal:
-                    return  Instantiate(_normalTile,new Vector3(position.X,position.Y),Quaternion.identity,_tileContainer.transform);
+                    var normalTile = Instantiate(_normalTile, new Vector3(position.X, position.Y), Quaternion.identity, _tileContainer.transform);
+                    normalTile.Position = new GridPosition(position.X, position.Y);
+                    return normalTile;
                 case TileType.Wall:
-                    return Instantiate(_wallTile, new Vector3(position.X, position.Y), Quaternion.identity, _tileContainer.transform);
+                    var wallTile = Instantiate(_wallTile, new Vector3(position.X, position.Y), Quaternion.identity, _tileContainer.transform);
+                    wallTile.Position = new GridPosition(position.X, position.Y);
+                    return wallTile;
                 case TileType.FinishPoint:
-                    return Instantiate(_finishTile, new Vector3(position.X, position.Y), Quaternion.identity, _tileContainer.transform);
+                    var finishTile = Instantiate(_finishTile, new Vector3(position.X, position.Y), Quaternion.identity, _tileContainer.transform);
+                    finishTile.Position = new GridPosition(position.X, position.Y);
+                    return finishTile;
             }
 
             return null;
