@@ -1,4 +1,5 @@
 using EGC.Controllers;
+using EGC.StateMachine;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -10,10 +11,12 @@ namespace EGC.Map
     public class TileLoader : MonoBehaviour
     {
         [SerializeField] private TileFactory _tileFactory;
+        [SerializeField] private GameObject _desksParent;
+        [SerializeField] private Desk _desk;
 
         public GridPosition PlayerPosition { get; private set; }
 
-        public Dictionary<GridPosition, Tile> ReadDataFromFile(string fileName)
+        public Dictionary<GridPosition, Tile> ReadDataFromFile(string fileName, Dictionary<GridPosition, Desk> desks)
         {
             var tileDictionary = new Dictionary<GridPosition, Tile>();
             TextAsset file = Resources.Load<TextAsset>(fileName);
@@ -46,10 +49,33 @@ namespace EGC.Map
                             else if (value == 1)
                                 tileDictionary.Add(new GridPosition(x, y), _tileFactory.CreateTile(TilePrefabs.TileType.Normal, new GridPosition(x, y)));
                             else if (value == 2)
-                                tileDictionary.Add(new GridPosition(x, y), _tileFactory.CreateTile(TilePrefabs.TileType.FinishPoint, new GridPosition(x, y)));
+                            {
+                                var newTile = _tileFactory.CreateTile(TilePrefabs.TileType.FinishPoint, new GridPosition(x, y));
+                                MapGrid.Instance.FinishTiles.Add(new GridPosition(x, y), newTile);
+                                tileDictionary.Add(new GridPosition(x, y), newTile);
+                            }
                             else if (value == 3)
-                                tileDictionary.Add(new GridPosition(x, y), _tileFactory.CreateTile(TilePrefabs.TileType.Normal, new GridPosition(x, y)));
+                            {
+                                var newTile = _tileFactory.CreateTile(TilePrefabs.TileType.Normal, new GridPosition(x, y));
+                                newTile.HasDeskOn = true;
+                                tileDictionary.Add(new GridPosition(x, y), newTile);
+                                
+                                var newDesk = Instantiate(_desk, new Vector3(x, y), Quaternion.identity, _desksParent.transform);
+                                newDesk.InitialPosition = new GridPosition(x, y);    
+                                desks.Add(newDesk.InitialPosition, newDesk);
+                            }
+                        else if (value == 4)
+                        {
+                            var newTile = _tileFactory.CreateTile(TilePrefabs.TileType.FinishPoint, new GridPosition(x, y));
+                            newTile.HasDeskOn = true;
+                            tileDictionary.Add(new GridPosition(x, y), newTile);
+                            MapGrid.Instance.FinishTiles.Add(new GridPosition(x, y), newTile);
+
+                            var newDesk = Instantiate(_desk, new Vector3(x, y), Quaternion.identity, _desksParent.transform);
+                            newDesk.InitialPosition = new GridPosition(x, y);
+                            desks.Add(newDesk.InitialPosition, newDesk);
                         }
+                    }
                     
                     }
                 j = 0;
@@ -62,6 +88,14 @@ namespace EGC.Map
            
 
             return tileDictionary;
+        }
+
+        public void DeleteDesks()
+        {
+            foreach(Transform child in _desksParent.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 }

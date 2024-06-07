@@ -15,7 +15,7 @@ namespace EGC.Controllers
         {
             _gridData = new GridData();
             transform.position = new Vector3(MapGrid.Instance.TileLoader.PlayerPosition.X, MapGrid.Instance.TileLoader.PlayerPosition.Y);
-            _currentPosition = MapGrid.Instance.TileLoader.PlayerPosition;
+            CurrentPosition = MapGrid.Instance.TileLoader.PlayerPosition;
         }
 
         private void Update()

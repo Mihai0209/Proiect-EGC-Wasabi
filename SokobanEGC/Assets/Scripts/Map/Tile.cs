@@ -8,7 +8,6 @@ namespace EGC.Map
         protected int _id;
         protected GameObject _prefab;
         public GridPosition Position;
-
-       
+        public bool HasDeskOn;
     }
 }

@@ -1,3 +1,4 @@
+using EGC.Controllers;
 using EGC.StateMachine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -28,6 +29,9 @@ namespace EGC.Map
 
         public TileLoader TileLoader { get => _tileLoader; }
 
+        public Dictionary<GridPosition, Desk> Desks { get; set; }
+        public Dictionary<GridPosition, Tile> FinishTiles = new Dictionary<GridPosition, Tile>();
+
         private Dictionary<GridPosition, Tile> _tiles = new Dictionary<GridPosition, Tile>();
 
         public struct GridPosition
@@ -43,6 +47,7 @@ namespace EGC.Map
 
         private void Awake()
         {
+            Desks = new Dictionary<GridPosition, Desk>();
             if (_instance == null)
             {
                 _instance = this;
@@ -64,12 +69,16 @@ namespace EGC.Map
 
         public void CreateMap(string fileName)
         {
-            _tiles = TileLoader.ReadDataFromFile(fileName);
+            _tiles = TileLoader.ReadDataFromFile(fileName, Desks);
         }
 
         public void DeleteMap()
         {
             _tiles.Clear();
+            Desks.Clear();
+            FinishTiles.Clear();
+
+            TileLoader.DeleteDesks();
 
             foreach (Transform child in _tilesObj.transform)
             {

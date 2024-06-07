@@ -1,3 +1,4 @@
+using EGC.Controllers;
 using EGC.Map;
 using EGC.Menu;
 using System.Collections.Generic;
@@ -22,9 +23,12 @@ namespace EGC.StateMachine
         private string _levelName;
         private MenuManager _menuManager;
 
+        public List<Desk> Desks { get; set; }
+
         public InLevelState(int levelId)
         {
             _levelName = levels[levelId];
+            Desks = new List<Desk>();
         }
 
         public override void Start()
